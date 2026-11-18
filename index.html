@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="cs" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anežka & Patrik | Naše svatba</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#121312',
+                        darkCard: '#1a1c1b',
+                        darkBorder: '#272b28',
+                        sage: {
+                            500: '#8ca38f',
+                            600: '#738678',
+                            700: '#5c6c60',
+                        },
+                        sand: {
+                            100: '#f3eee3',
+                            200: '#e5dcce',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121312;
+            color: #d1d5db;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body class="bg-darkBg text-gray-300 antialiased selection:bg-sage-600 selection:text-white">
+
+    <!-- Notification Message Box (Custom alert alternative) -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-28 opacity-0 transition-all duration-300 bg-sage-700 text-white px-6 py-3 rounded-xl shadow-xl flex items-center space-x-3 border border-sage-600">
+        <i class="fa-solid fa-circle-check text-lg"></i>
+        <span id="toast-message">Akce proběhla úspěšně!</span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 bg-[#121312]/90 backdrop-blur-md z-40 border-b border-darkBorder transition-all duration-300" id="navbar">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="font-serif text-2xl tracking-wider text-sand-100 font-semibold">A & P</a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium tracking-wide uppercase text-gray-400">
+                <a href="#story" class="hover:text-sage-400 transition-colors">Příběh</a>
+                <a href="#schedule" class="hover:text-sage-400 transition-colors">Harmonogram</a>
+                <a href="#venue" class="hover:text-sage-400 transition-colors">Místo</a>
+                <a href="#gallery" class="hover:text-sage-400 transition-colors">Fotogalerie</a>
+                <a href="#gifts" class="hover:text-sage-400 transition-colors">Dary</a>
+                <a href="#rsvp" class="bg-sage-600 hover:bg-sage-500 text-white px-5 py-2.5 rounded-full transition-all text-xs tracking-wider">Potvrdit účast</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden text-gray-300 focus:outline-none p-2">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darkCard border-b border-darkBorder px-6 py-4 space-y-3">
+            <a href="#story" class="block text-sm font-medium uppercase text-gray-300 py-1 mobile-link">Příběh</a>
+            <a href="#schedule" class="block text-sm font-medium uppercase text-gray-300 py-1 mobile-link">Harmonogram</a>
+            <a href="#venue" class="block text-sm font-medium uppercase text-gray-300 py-1 mobile-link">Místo</a>
+            <a href="#gallery" class="block text-sm font-medium uppercase text-gray-300 py-1 mobile-link">Fotogalerie</a>
+            <a href="#gifts" class="block text-sm font-medium uppercase text-gray-300 py-1 mobile-link">Dary</a>
+            <a href="#rsvp" class="block text-sm font-medium uppercase text-sage-400 font-semibold py-1 mobile-link">Potvrdit účast</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex flex-col items-center justify-center pt-24 pb-12 px-6 overflow-hidden bg-darkBg text-center">
+        <div class="absolute inset-0 z-0 opacity-5 bg-[radial-gradient(#8ca38f_1px,transparent_1px)] [background-size:24px_24px]"></div>
+        
+        <div class="relative z-10 max-w-3xl mx-auto my-auto">
+            <span class="text-xs md:text-sm uppercase tracking-[0.25em] text-sage-500 font-semibold mb-4 block">Zveme vás na louku</span>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-sand-100 tracking-tight mb-6">
+                Anežka <span class="text-sage-500 font-light italic">a</span> Patrik
+            </h1>
+            <div class="text-sm md:text-base text-gray-400 mb-10 tracking-widest uppercase">
+                <span>Hostinec pod Zelenou Křivinou</span>
+                <span class="mx-2 text-sage-500">•</span>
+                <span>19. června 2027</span>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="grid grid-cols-4 gap-3 max-w-md mx-auto mb-10">
+                <div class="bg-darkCard border border-darkBorder rounded-2xl p-4 shadow-sm">
+                    <span id="days" class="block font-serif text-2xl md:text-3xl text-sand-100 font-bold">00</span>
+                    <span class="text-[10px] md:text-xs uppercase tracking-wider text-gray-500">Dní</span>
+                </div>
+                <div class="bg-darkCard border border-darkBorder rounded-2xl p-4 shadow-sm">
+                    <span id="hours" class="block font-serif text-2xl md:text-3xl text-sand-100 font-bold">00</span>
+                    <span class="text-[10px] md:text-xs uppercase tracking-wider text-gray-500">Hodin</span>
+                </div>
+                <div class="bg-darkCard border border-darkBorder rounded-2xl p-4 shadow-sm">
+                    <span id="minutes" class="block font-serif text-2xl md:text-3xl text-sand-100 font-bold">00</span>
+                    <span class="text-[10px] md:text-xs uppercase tracking-wider text-gray-500">Minut</span>
+                </div>
+                <div class="bg-darkCard border border-darkBorder rounded-2xl p-4 shadow-sm">
+                    <span id="seconds" class="block font-serif text-2xl md:text-3xl text-sand-100 font-bold">00</span>
+                    <span class="text-[10px] md:text-xs uppercase tracking-wider text-gray-500">Vteřin</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Image Section (directly in hero matching reference style) -->
+        <div class="relative z-10 w-full max-w-4xl mx-auto px-4 mt-4">
+            <div class="rounded-3xl overflow-hidden border border-darkBorder shadow-2xl h-[350px] md:h-[450px]">
+                <img src="https://github.com/romanbase3-art/Pata-a-anezka/blob/main/pata%20a%20anezka.png?raw=true" alt="Anežka a Patrik" class="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-700">
+            </div>
+        </div>
+    </header>
+
+    <!-- Our Story Section -->
+    <section id="story" class="py-24 px-6 bg-[#161817]">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-[0.2em] text-sage-500 font-semibold mb-2 block">Jak to všechno začalo</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-sand-100">Náš příběh</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <div class="absolute -inset-2 bg-darkBorder rounded-3xl transform -rotate-1"></div>
+                    <img src="https://placehold.co/600x700/1a1c1b/8ca38f?text=N%C3%A1%C5%A1+p%C5%99%C3%ADb%C4%9Bh" alt="Náš příběh" class="relative rounded-2xl w-full object-cover shadow-md h-[400px]">
+                </div>
+                <div class="space-y-6 text-gray-400 leading-relaxed font-light">
+                    <p class="first-letter:text-5xl first-letter:font-serif first-letter:text-sage-500 first-letter:mr-3 first-letter:float-left">
+                        Potkali jsme se na společném výletu do přírody, kde Patrik ztratil batoh a Anežka mu nabídla svačinu. Od té doby sdílíme každou vlnu života.
+                    </p>
+                    <p>
+                        Po letech společného bydlení a procestovaných koutek světa přišla žádost o ruku pod hvězdnou oblohou. 
+                    </p>
+                    <p>
+                        Teď nastal čas stvrdit naše pouto obřadem pod širým nebem obklopeni těmi nejbližšími přáteli a rodinou.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="py-24 px-6 bg-darkBg">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-[0.2em] text-sage-500 font-semibold mb-2 block">Průběh svatebního dne</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-sand-100">Harmonogram</h2>
+            </div>
+
+            <div class="relative border-l-2 border-darkBorder ml-4 md:ml-32 space-y-12">
+                
+                <!-- Item 1 -->
+                <div class="relative pl-8 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-sage-500 border-4 border-darkBg"></div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-sage-400 bg-darkCard px-3 py-1 rounded-full border border-darkBorder">12:00</span>
+                    <h3 class="font-serif text-2xl text-sand-100 mt-2">Příjezd hostů</h3>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Uvítání v Hostinci pod Zelenou Křivinou a malý osvěžující drink.</p>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative pl-8 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-sage-500 border-4 border-darkBg"></div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-sage-400 bg-darkCard px-3 py-1 rounded-full border border-darkBorder">14:00</span>
+                    <h3 class="font-serif text-2xl text-sand-100 mt-2">Svatební obřad</h3>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Slib věrnosti na louce pod širým nebem.</p>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative pl-8 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-sage-500 border-4 border-darkBg"></div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-sage-400 bg-darkCard px-3 py-1 rounded-full border border-darkBorder">15:30</span>
+                    <h3 class="font-serif text-2xl text-sand-100 mt-2">Hostina a oslava</h3>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Společný oběd, krájení dortu a pohodová atmosféra.</p>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative pl-8 group">
+                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-sage-500 border-4 border-darkBg"></div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-sage-400 bg-darkCard px-3 py-1 rounded-full border border-darkBorder">19:00</span>
+                    <h3 class="font-serif text-2xl text-sand-100 mt-2">Večerní zábava</h3>
+                    <p class="text-gray-400 text-sm mt-1 font-light">Hudba, tanec a neformální grilování pod lucernami.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Venue Section -->
+    <section id="venue" class="py-24 px-6 bg-[#161817]">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-[0.2em] text-sage-500 font-semibold mb-2 block">Kde se uvidíme</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-sand-100">Místo konání</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 bg-darkCard rounded-3xl p-8 md:p-12 border border-darkBorder">
+                <div class="flex flex-col justify-center space-y-6">
+                    <div>
+                        <h3 class="font-serif text-3xl text-sand-100 mb-2">Hostinec pod Zelenou Křivinou</h3>
+                        <p class="text-gray-400 font-light leading-relaxed">
+                            Romantické místo uprostřed přírody s útulným hostincem a přilehlou loukou ideální pro venkovní obřad.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3 text-sm text-gray-300">
+                        <div class="flex items-start space-x-3">
+                            <i class="fa-solid fa-location-dot text-sage-500 mt-1"></i>
+                            <span>Zelená Křivina 12, 289 03</span>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="fa-solid fa-car text-sage-500 mt-1"></i>
+                            <span>Parkování je zajištěno přímo u areálu.</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <a href="https://mapy.cz" target="_blank" class="inline-flex items-center space-x-2 text-xs font-semibold tracking-wider uppercase bg-sage-600 hover:bg-sage-500 text-white px-6 py-3 rounded-full transition-all shadow-md">
+                            <span>Otevřít mapu</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl overflow-hidden shadow-inner bg-darkBg min-h-[300px] flex items-center justify-center relative border border-darkBorder">
+                    <img src="https://placehold.co/600x400/121312/8ca38f?text=Hostinec+pod+Zelenou+K%C5%99ivinou" alt="Mapa" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Padlet Gallery Section -->
+    <section id="gallery" class="py-24 px-6 bg-darkBg">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-[0.2em] text-sage-500 font-semibold mb-2 block">Sdílejte s námi vzpomínky</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-sand-100 mb-4">Fotogalerie</h2>
+                <p class="text-gray-400 text-sm font-light max-w-xl mx-auto">
+                    Máte z naší svatby fotky? Nahrajte je do naší společné nástěnky na Padletu, ať máme všechny momentky pohromadě!
+                </p>
+            </div>
+
+            <div class="bg-darkCard rounded-3xl p-4 md:p-8 border border-darkBorder shadow-xl">
+                <!-- Padlet Embed Container -->
+                <div class="relative w-full h-[600px] rounded-2xl overflow-hidden border border-darkBorder bg-darkBg">
+                    <!-- Embedded Padlet iframe (replace embed URL with your friend's actual padlet board link) -->
+                    <iframe src="https://padlet.com/embed/demo-wedding-board" class="w-full h-full border-0" allow="camera;microphone;geolocation" title="Svatební fotogalerie Padlet"></iframe>
+                </div>
+
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
+                    <p class="text-xs text-gray-400 font-light">
+                        <i class="fa-solid fa-circle-info text-sage-500 mr-1.5"></i>
+                        Fotky můžete jednoduše nahrát i přes mobilní telefon kliknutím na tlačítko níže.
+                    </p>
+                    <a href="https://padlet.com" target="_blank" class="inline-flex items-center space-x-2 text-xs font-semibold tracking-wider uppercase bg-sage-600 hover:bg-sage-500 text-white px-6 py-3 rounded-full transition-all shadow-md">
+                        <span>Otevřít Padlet na celé obrazovce</span>
+                        <i class="fa-solid fa-external-link text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gifts Section -->
+    <section id="gifts" class="py-24 px-6 bg-[#161817]">
+        <div class="max-w-3xl mx-auto text-center">
+            <span class="text-xs uppercase tracking-[0.2em] text-sage-500 font-semibold mb-2 block">Naše přání</span>
+            <h2 class="font-serif text-4xl md:text-5xl text-sand-100 mb-6">Svatební dary</h2>
+            
+            <div class="bg-darkCard rounded-3xl p-8 md:p-12 shadow-sm border border-darkBorder space-y-6">
+                <div class="w-16 h-16 bg-[#272b28] text-sage-400 rounded-full flex items-center justify-center mx-auto text-2xl">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <p class="text-gray-400 font-light leading-relaxed max-w-xl mx-auto">
+                    Vaše přítomnost na naší svatbě je pro nás tím největším darem. Pokud byste nás přesto chtěli potěšit drobným příspěvkem, největší radost nám udělá podpora na naše společné budoucí sny.
+                </p>
+                <div class="pt-4 border-t border-darkBorder">
+                    <p class="text-xs uppercase tracking-wider text-gray-500 mb-1">Číslo účtu:</p>
+                    <p class="font-serif text-xl text-sand-100 font-bold tracking-widest">987654321 / 2010</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP Form Section -->
+    <section id="rsvp" class="py-24 px-6 bg-[#161817]">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-xs uppercase tracking-[0.2em] text-sage-500 font-semibold mb-2 block">Dejte nám vědět</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-sand-100 mb-4">Potvrzení účasti (RSVP)</h2>
+                <p class="text-gray-400 text-sm font-light">Prosíme o potvrzení účasti nejpozději do <strong class="font-semibold text-sand-100">1. května 2027</strong>.</p>
+            </div>
+
+            <form id="rsvp-form" class="bg-darkCard rounded-3xl p-8 md:p-12 border border-darkBorder space-y-6 shadow-sm">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Celé jméno</label>
+                        <input type="text" required class="w-full bg-darkBg border border-darkBorder rounded-xl px-4 py-3 text-sm text-sand-100 focus:outline-none focus:border-sage-500 transition-colors" placeholder="Jan Novák">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">E-mailová adresa</label>
+                        <input type="email" required class="w-full bg-darkBg border border-darkBorder rounded-xl px-4 py-3 text-sm text-sand-100 focus:outline-none focus:border-sage-500 transition-colors" placeholder="jan@novak.cz">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Účast na svatbě</label>
+                    <select class="w-full bg-darkBg border border-darkBorder rounded-xl px-4 py-3 text-sm text-sand-100 focus:outline-none focus:border-sage-500 transition-colors">
+                        <option class="bg-darkBg text-sand-100">Ano, s radostí dorazím</option>
+                        <option class="bg-darkBg text-sand-100">Bohužel se nemůžu zúčastnit</option>
+                    </select>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Počet osob</label>
+                        <input type="number" min="1" max="5" value="1" class="w-full bg-darkBg border border-darkBorder rounded-xl px-4 py-3 text-sm text-sand-100 focus:outline-none focus:border-sage-500 transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 mb-2 font-medium">Dietní omezení / Poznámka</label>
+                        <input type="text" class="w-full bg-darkBg border border-darkBorder rounded-xl px-4 py-3 text-sm text-sand-100 focus:outline-none focus:border-sage-500 transition-colors" placeholder="Např. bezlepková dieta...">
+                    </div>
+                </div>
+
+                <div class="pt-4 text-center">
+                    <button type="submit" class="w-full md:w-auto bg-sage-600 hover:bg-sage-500 text-white font-medium px-10 py-4 rounded-full transition-all shadow-lg shadow-sage-600/20 uppercase tracking-wider text-xs">
+                        Odeslat odpověď
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-darkCard py-12 px-6 border-t border-darkBorder text-center">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <h2 class="font-serif text-2xl text-sand-100 font-bold">Anežka & Patrik</h2>
+            <p class="text-xs uppercase tracking-widest text-gray-500">Těšíme se na vás na louce!</p>
+            <p class="text-[11px] text-gray-600 pt-4">&copy; 2027 Všechna práva vyhrazena.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Toast Message Notification helper
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+            toast.classList.remove('translate-y-28', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-28', 'opacity-0');
+            }, 4000);
+        }
+
+        // RSVP Form Handler
+        const rsvpForm = document.getElementById('rsvp-form');
+        rsvpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('Děkujeme! Vaše odpověď byla úspěšně odeslána.');
+            rsvpForm.reset();
+        });
+
+        // Countdown Timer Logic
+        const weddingDate = new Date('June 19, 2027 12:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
